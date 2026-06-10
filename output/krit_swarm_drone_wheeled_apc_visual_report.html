@@ -1,0 +1,783 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>군집드론 탑재 차륜형장갑차 개발사업 기초자료</title>
+  <style>
+    :root {
+      --ink: #111111;
+      --muted: #666666;
+      --line: #d6d6d6;
+      --soft: #f5f5f5;
+      --dark: #171917;
+      --green: #76b900;
+      --green-dark: #4f7f00;
+      --green-soft: #e7f5ce;
+      --sand: #d8d2c4;
+      --blue: #243b53;
+      --red: #8a2d2d;
+      --page: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--page);
+      font-family: "Pretendard", "Noto Sans KR", "Malgun Gothic", Arial, sans-serif;
+      line-height: 1.68;
+      word-break: keep-all;
+    }
+
+    a { color: var(--green-dark); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .hero {
+      min-height: 88vh;
+      display: grid;
+      align-items: end;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.05) 0%, rgba(0,0,0,.70) 100%),
+        url("../assets/wheeled-apc-drone-carrier-concept.png") center / cover no-repeat;
+      color: white;
+      padding: 48px 6vw 64px;
+    }
+
+    .hero-inner { max-width: 1120px; }
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #e8f6d0;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: .02em;
+      margin-bottom: 18px;
+    }
+    .kicker::before {
+      content: "";
+      width: 36px;
+      height: 3px;
+      background: var(--green);
+      display: inline-block;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 6vw, 72px);
+      line-height: 1.08;
+      letter-spacing: 0;
+      max-width: 980px;
+    }
+    .hero p {
+      max-width: 850px;
+      margin: 22px 0 0;
+      font-size: 20px;
+      color: rgba(255,255,255,.88);
+    }
+
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+      font-size: 14px;
+      color: rgba(255,255,255,.9);
+    }
+    .doc-meta span {
+      border: 1px solid rgba(255,255,255,.25);
+      padding: 6px 10px;
+      background: rgba(0,0,0,.22);
+    }
+
+    main { max-width: 1180px; margin: 0 auto; padding: 42px 24px 80px; }
+    section { margin: 72px 0; }
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 420px);
+      gap: 32px;
+      align-items: end;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 28px;
+    }
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(27px, 4vw, 42px);
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+    .section-head p { margin: 0; color: var(--muted); }
+
+    h3 { font-size: 23px; line-height: 1.35; margin: 34px 0 12px; }
+    h4 { font-size: 18px; margin: 24px 0 8px; }
+    p { margin: 0 0 14px; }
+    .lead { font-size: 19px; color: #2d2d2d; }
+    .note {
+      background: var(--soft);
+      border-left: 5px solid var(--green);
+      padding: 16px 18px;
+      margin: 20px 0;
+      color: #333;
+    }
+
+    .toc {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 32px 0 0;
+    }
+    .toc a {
+      display: block;
+      border: 1px solid var(--line);
+      padding: 14px 16px;
+      color: var(--ink);
+      background: white;
+      min-height: 74px;
+    }
+    .toc strong { display: block; font-size: 18px; line-height: 1.3; }
+    .toc span { display: block; color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: white;
+      padding: 18px;
+      border-radius: 4px;
+    }
+    .card h3, .card h4 { margin-top: 0; }
+    .card p:last-child { margin-bottom: 0; }
+    .metric {
+      display: grid;
+      grid-template-columns: 86px 1fr;
+      gap: 12px;
+      align-items: center;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+      margin-top: 14px;
+    }
+    .metric b { font-size: 29px; color: var(--green-dark); line-height: 1; }
+    .metric span { color: var(--muted); font-size: 13px; }
+
+    figure {
+      margin: 24px 0;
+      border: 1px solid var(--line);
+      background: white;
+    }
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    figcaption {
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      background: #fafafa;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 24px;
+      font-size: 15px;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      vertical-align: top;
+      text-align: left;
+    }
+    th { background: #f1f1f1; font-weight: 700; }
+    .tight td, .tight th { padding: 8px 10px; font-size: 14px; }
+    .score-high { color: var(--red); font-weight: 700; }
+    .score-mid { color: var(--blue); font-weight: 700; }
+
+    .svg-box {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 12px;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+    svg { max-width: 100%; height: auto; display: block; }
+    .source-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .source {
+      border: 1px solid var(--line);
+      padding: 13px 14px;
+      background: #fff;
+      font-size: 14px;
+    }
+    .source strong { display: block; margin-bottom: 4px; }
+
+    .prompt {
+      font-family: Consolas, "Courier New", monospace;
+      white-space: pre-wrap;
+      background: #111;
+      color: #f3f3f3;
+      padding: 14px;
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 10px 0 0;
+    }
+
+    .print-note {
+      border: 1px solid var(--line);
+      padding: 16px;
+      background: var(--green-soft);
+      margin-top: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .section-head, .grid-2, .grid-3, .source-list, .toc {
+        grid-template-columns: 1fr;
+      }
+      .hero { min-height: 80vh; padding: 32px 22px 44px; }
+      main { padding: 28px 16px 64px; }
+    }
+
+    @media print {
+      body { color: #000; }
+      .hero { min-height: auto; padding: 36px; background: #111 !important; }
+      main { max-width: none; padding: 18px; }
+      section { break-inside: avoid; margin: 36px 0; }
+      a { color: #000; text-decoration: underline; }
+      .card, figure, .svg-box { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="kicker">국기연 소요기획서 기초자료 시각화본</div>
+      <h1>군집드론 탑재 차륜형장갑차 개발사업</h1>
+      <p>러시아-우크라이나 전쟁 이후 확대된 드론 전장화 추세에 대응하여, 기존 차륜형장갑차를 전방 무인전력 허브로 개조개발하는 방안을 정리한 HTML 자료이다.</p>
+      <div class="doc-meta">
+        <span>작성 기준일: 2026.06.10</span>
+        <span>작성 언어: 한국어</span>
+        <span>이미지: 생성형 컨셉 이미지 + 공개 원문 링크</span>
+        <span>주의: 사업비와 미공개 제원은 기획단계 추정</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="summary">
+      <div class="section-head">
+        <h2>핵심 결론</h2>
+        <p>본 사업은 단순 드론 탑재 차량이 아니라, 장갑기동부대와 함께 움직이는 저장·충전·발사·통제·데이터연동 플랫폼으로 기획해야 한다.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <h3>전장 변화</h3>
+          <p>FPV 드론, 자폭드론, 배회형 탄약, 군집드론이 대량 소모형 전력으로 확산되고 있다. 기존 장갑차는 이러한 드론을 다수 운용하기 위한 전원, 통신, 임무공간이 부족하다.</p>
+          <div class="metric"><b>다수</b><span>드론을 한 대씩 조종하는 방식에서 임무단위 통제로 전환 필요</span></div>
+        </div>
+        <div class="card">
+          <h3>개발 방향</h3>
+          <p>기존 차륜형장갑차의 후방 병력공간을 드론 저장고, 자동발사기, 충전장치, 데이터링크, AI 임무관리 서버로 전환하는 개조개발 방식이 현실적이다.</p>
+          <div class="metric"><b>차륜형장갑차</b><span>기존 차륜형장갑차 기반으로 개발기간과 위험 감소</span></div>
+        </div>
+        <div class="card">
+          <h3>사업 규모</h3>
+          <p>소형 실증보다 군 운용시험이 가능한 중형 시제개발이 적정하다. 총사업비는 요구성능과 시제수량에 따라 크게 달라진다.</p>
+          <div class="metric"><b>655억</b><span>중형 시나리오 기준 기획단계 추정</span></div>
+        </div>
+      </div>
+
+      <div class="toc">
+        <a href="#market"><strong>1. 해외 시장 분석</strong><span>드론 전장화, 국가별 사례, 진입국가</span></a>
+        <a href="#competitors"><strong>2. 경쟁체계 분석</strong><span>Stryker, Leonidas, Boxer, RCH155 등</span></a>
+        <a href="#development"><strong>3. 개조개발 필요성</strong><span>차륜형장갑차 기반 임무공간 개조</span></a>
+        <a href="#cost"><strong>4. 예상 사업비</strong><span>소형·중형·대형 3개 시나리오</span></a>
+        <a href="#images"><strong>5. 이미지 기획</strong><span>과제카드용 이미지와 프롬프트</span></a>
+        <a href="#sources"><strong>6. 참고문헌</strong><span>원문 링크와 PDF 확보 후보</span></a>
+      </div>
+    </section>
+
+    <section id="market">
+      <div class="section-head">
+        <h2>1. 해외 시장 분석</h2>
+        <p>드론은 보조 정찰수단에서 전술부대의 상시 감시·표적획득·타격 수단으로 전환되고 있다.</p>
+      </div>
+
+      <p class="lead">러시아-우크라이나 전쟁은 드론의 전장화가 일시적 현상이 아니라 지상전의 구조적 변화임을 보여준다. 소형 상용 드론, FPV 드론, 자폭드론, 장거리 일회용 드론이 동시에 운용되면서 전장의 감시, 표적획득, 타격, 전자전 기능이 저비용·고빈도 방식으로 수행되고 있다.</p>
+
+      <div class="svg-box" aria-label="드론 전장화 추세 도식">
+        <svg viewBox="0 0 1120 330" role="img">
+          <rect x="0" y="0" width="1120" height="330" fill="#ffffff"/>
+          <text x="28" y="44" font-size="26" font-weight="700" fill="#111">드론 전장화의 5단계 흐름</text>
+          <line x1="80" y1="170" x2="1040" y2="170" stroke="#76b900" stroke-width="5"/>
+          <g font-family="Arial, sans-serif">
+            <g transform="translate(70 105)">
+              <circle cx="50" cy="65" r="42" fill="#e7f5ce" stroke="#76b900" stroke-width="3"/>
+              <text x="50" y="60" text-anchor="middle" font-size="15" font-weight="700">상용</text>
+              <text x="50" y="80" text-anchor="middle" font-size="15" font-weight="700">드론</text>
+              <text x="50" y="135" text-anchor="middle" font-size="15" fill="#555">정찰 보편화</text>
+            </g>
+            <g transform="translate(270 105)">
+              <circle cx="50" cy="65" r="42" fill="#e7f5ce" stroke="#76b900" stroke-width="3"/>
+              <text x="50" y="60" text-anchor="middle" font-size="15" font-weight="700">FPV</text>
+              <text x="50" y="80" text-anchor="middle" font-size="15" font-weight="700">공격</text>
+              <text x="50" y="135" text-anchor="middle" font-size="15" fill="#555">저가 정밀타격</text>
+            </g>
+            <g transform="translate(470 105)">
+              <circle cx="50" cy="65" r="42" fill="#e7f5ce" stroke="#76b900" stroke-width="3"/>
+              <text x="50" y="60" text-anchor="middle" font-size="15" font-weight="700">배회형</text>
+              <text x="50" y="80" text-anchor="middle" font-size="15" font-weight="700">탄약</text>
+              <text x="50" y="135" text-anchor="middle" font-size="15" fill="#555">탐색 후 타격</text>
+            </g>
+            <g transform="translate(670 105)">
+              <circle cx="50" cy="65" r="42" fill="#e7f5ce" stroke="#76b900" stroke-width="3"/>
+              <text x="50" y="60" text-anchor="middle" font-size="15" font-weight="700">군집</text>
+              <text x="50" y="80" text-anchor="middle" font-size="15" font-weight="700">운용</text>
+              <text x="50" y="135" text-anchor="middle" font-size="15" fill="#555">다수 동시운용</text>
+            </g>
+            <g transform="translate(870 105)">
+              <circle cx="50" cy="65" r="42" fill="#e7f5ce" stroke="#76b900" stroke-width="3"/>
+              <text x="50" y="60" text-anchor="middle" font-size="15" font-weight="700">AI</text>
+              <text x="50" y="80" text-anchor="middle" font-size="15" font-weight="700">협동</text>
+              <text x="50" y="135" text-anchor="middle" font-size="15" fill="#555">임무단위 통제</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>미국</h3>
+          <p>미 국방부 Replicator Initiative는 단기간 내 다수의 소모성·자율 무인체계를 배치하려는 정책이다. DARPA OFFSET은 도시지역에서 다수 소형 무인체계의 군집운용을 실험했고, CCA 프로그램은 유인 항공기와 협동하는 무인전투항공기 방향을 제시한다.</p>
+          <p>관련 기업으로는 Anduril, AeroVironment가 있으며, Switchblade 계열 배회형 탄약과 Lattice 기반 임무통제는 군집드론 차량의 통제·타격 개념과 연결된다.</p>
+        </div>
+        <div class="card">
+          <h3>중국·러시아</h3>
+          <p>중국은 CH 시리즈, ASN 계열, 상용 드론 생태계를 기반으로 대량 생산과 수출경쟁력을 보유한다. 군집드론 시범과 대량 운용 개념도 공개되어 왔다.</p>
+          <p>러시아는 Lancet 배회형 탄약, FPV 드론, Molniya 계열 저가 고정익 드론을 통해 저가·대량·소모형 전술을 강화하고 있다.</p>
+        </div>
+        <div class="card">
+          <h3>이스라엘</h3>
+          <p>IAI Harop·Harpy 계열과 Elbit SkyStriker는 배회형 탄약의 대표 사례이다. 이스라엘 사례는 차량 탑재 발사, 전술 지휘통제, 정찰-타격 통합 측면에서 참고 가치가 크다.</p>
+        </div>
+        <div class="card">
+          <h3>유럽·NATO</h3>
+          <p>NATO DIANA는 신흥기술 기업과 국방 수요를 연결하는 혁신 네트워크이다. Boxer Mission Module, RCH155, Mission Master UGV는 모듈화, 개방형 전자구조, 유무인복합 운용의 참고사례이다.</p>
+        </div>
+      </div>
+
+      <h3>진입 추진 국가 예비 분석</h3>
+      <table class="tight">
+        <thead>
+          <tr><th>국가</th><th>운용현황</th><th>위협수준</th><th>도입가능성</th><th>시장성</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>폴란드</td><td>우크라이나 인접, 드론·대드론·기갑전력 확충</td><td class="score-high">매우 높음</td><td class="score-high">높음</td><td class="score-high">높음</td><td>한국 방산 협력 기반 존재</td></tr>
+          <tr><td>루마니아</td><td>흑해·NATO 동부전선 강화</td><td class="score-high">높음</td><td class="score-mid">중간~높음</td><td class="score-mid">중간</td><td>감시정찰형 수요 예상</td></tr>
+          <tr><td>발트 3국</td><td>분산방어와 소형 드론 관심 높음</td><td class="score-high">매우 높음</td><td class="score-mid">중간</td><td class="score-mid">중간</td><td>경량·모듈형 패키지 적합</td></tr>
+          <tr><td>핀란드</td><td>러시아 접경, 혹한 지상전 대비 강화</td><td class="score-high">높음</td><td class="score-mid">중간</td><td class="score-mid">중간</td><td>혹한·분산전 요구</td></tr>
+          <tr><td>호주</td><td>인도태평양 감시정찰·무인체계 관심</td><td class="score-mid">중간</td><td class="score-mid">중간</td><td class="score-high">중간~높음</td><td>한국 장갑차 협력 경험 활용 가능</td></tr>
+          <tr><td>사우디·UAE</td><td>드론·미사일 위협 경험, 무인체계 투자 확대</td><td class="score-high">높음</td><td class="score-mid">중간</td><td class="score-high">높음</td><td>현지화·공동개발 요구 가능</td></tr>
+          <tr><td>인도</td><td>국경분쟁과 고산·사막지형 운용 수요</td><td class="score-high">높음</td><td class="score-mid">중간</td><td class="score-high">높음</td><td>기술이전·현지생산 요구 가능</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="competitors">
+      <div class="section-head">
+        <h2>2. 해외 경쟁체계 분석</h2>
+        <p>해외 사례의 공통점은 후방 임무공간 확대, 임무모듈화, 개방형 전자구조, 자동화된 발사·통제 기능이다.</p>
+      </div>
+
+      <figure>
+        <img src="../assets/swarm-drone-launch-concept.png" alt="군집드론 동시 발사 컨셉 이미지">
+        <figcaption>생성형 컨셉 이미지: 장갑차 기반 군집드론 동시 발사 장면. 실제 장비나 부대 표식을 재현하지 않은 비기밀 제안용 이미지.</figcaption>
+      </figure>
+
+      <table>
+        <thead>
+          <tr><th>체계</th><th>핵심 특징</th><th>본 사업 시사점</th><th>원문 확인</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Stryker 기반 드론 플랫폼</td>
+            <td>8×8 장갑차 내부공간·전력·전자구조를 활용한 무인체계 운용 개념. StrykerX 계열은 하이브리드 전원, 개방형 전자구조, 드론 운용을 강조한다.</td>
+            <td>병력공간을 임무통제석, 드론랙, 발사기, 배터리 관리공간으로 전환하는 방향 참고.</td>
+            <td><a href="https://www.gdls.com/" target="_blank" rel="noreferrer">GDLS</a></td>
+          </tr>
+          <tr>
+            <td>Leonidas</td>
+            <td>Epirus의 고출력 마이크로파 기반 대드론 체계. 군집드론 대응과 전자장비 무력화 개념을 제시한다.</td>
+            <td>군집드론 운용차량도 대드론 방호·전자전 연동을 초기 요구에 반영해야 한다.</td>
+            <td><a href="https://www.epirusinc.com/" target="_blank" rel="noreferrer">Epirus</a></td>
+          </tr>
+          <tr>
+            <td>PIRANHA 10×10</td>
+            <td>대형 차륜형 플랫폼의 높은 적재중량과 후방 임무공간을 활용하는 구조.</td>
+            <td>후방 드론 저장고와 임무모듈의 확장성 확보 필요.</td>
+            <td><a href="https://www.gdels.com/" target="_blank" rel="noreferrer">GDELS</a></td>
+          </tr>
+          <tr>
+            <td>RCH155</td>
+            <td>Boxer 기반 원격조종 155mm 포탑 모듈. 승무원 공간과 임무공간 분리, 자동화 임무모듈 통합 사례.</td>
+            <td>드론 임무모듈도 차량 플랫폼과 가능한 한 분리 설계하는 것이 유리하다.</td>
+            <td><a href="https://knds.com/en/products/systems/rch-155/" target="_blank" rel="noreferrer">KNDS</a></td>
+          </tr>
+          <tr>
+            <td>Boxer Mission Module</td>
+            <td>구동모듈과 임무모듈 분리. 임무 변경에 따라 후방 모듈 교체 가능.</td>
+            <td>정찰형, 공격형, 통신중계형, 대드론형 모듈로 확장 가능.</td>
+            <td><a href="https://www.artec-boxer.com/" target="_blank" rel="noreferrer">ARTEC</a></td>
+          </tr>
+          <tr>
+            <td>Patria 6×6 / VBTP Guarani</td>
+            <td>중저가 차륜형 플랫폼의 병력수송·임무개조 가능성.</td>
+            <td>6x6급 또는 6×6급 수출형 파생모델 검토 가능.</td>
+            <td><a href="https://www.patriagroup.com/" target="_blank" rel="noreferrer">Patria</a></td>
+          </tr>
+          <tr>
+            <td>JLTV 드론모함 개념</td>
+            <td>경전술차량에 소형 UAS, 배회형 탄약, 발사튜브, 통신중계장비를 결합하는 개념.</td>
+            <td>중형 차륜형장갑차형은 전방 장갑기동부대용 중형 허브, JLTV형은 저비용 신속전개형으로 차별화.</td>
+            <td><a href="https://oshkoshdefense.com/vehicles/light-tactical-vehicles/jltv/" target="_blank" rel="noreferrer">Oshkosh</a></td>
+          </tr>
+          <tr>
+            <td>Mission Master UGV</td>
+            <td>무인지상차량 기반 정찰·수송·화력지원·대드론 임무킷 확장.</td>
+            <td>드론모함차량이 UGV와 함께 전개·중계·회수하는 복합 운용으로 발전 가능.</td>
+            <td><a href="https://www.rheinmetall.com/" target="_blank" rel="noreferrer">Rheinmetall</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>경쟁체계 공통 특징</h3>
+      <div class="svg-box">
+        <svg viewBox="0 0 1120 470" role="img" aria-label="해외 경쟁체계 공통 특징">
+          <rect width="1120" height="470" fill="#fff"/>
+          <text x="34" y="44" font-size="26" font-weight="700" fill="#111">해외 경쟁체계에서 반복되는 설계 방향</text>
+          <g transform="translate(40 80)" font-family="Arial, sans-serif">
+            <g>
+              <rect width="300" height="80" fill="#f5f5f5" stroke="#d6d6d6"/>
+              <rect width="8" height="80" fill="#76b900"/>
+              <text x="22" y="34" font-size="18" font-weight="700">승무원 공간 최소화</text>
+              <text x="22" y="60" font-size="14" fill="#555">운전·지휘·임무통제 중심</text>
+            </g>
+            <g transform="translate(390 0)">
+              <rect width="300" height="80" fill="#f5f5f5" stroke="#d6d6d6"/>
+              <rect width="8" height="80" fill="#76b900"/>
+              <text x="22" y="34" font-size="18" font-weight="700">후방 임무공간 확대</text>
+              <text x="22" y="60" font-size="14" fill="#555">드론랙·충전·발사장비 배치</text>
+            </g>
+            <g transform="translate(780 0)">
+              <rect width="300" height="80" fill="#f5f5f5" stroke="#d6d6d6"/>
+              <rect width="8" height="80" fill="#76b900"/>
+              <text x="22" y="34" font-size="18" font-weight="700">모듈화 설계</text>
+              <text x="22" y="60" font-size="14" fill="#555">정찰·공격·중계 임무 전환</text>
+            </g>
+            <g transform="translate(0 140)">
+              <rect width="300" height="80" fill="#f5f5f5" stroke="#d6d6d6"/>
+              <rect width="8" height="80" fill="#76b900"/>
+              <text x="22" y="34" font-size="18" font-weight="700">개방형 전자구조</text>
+              <text x="22" y="60" font-size="14" fill="#555">전술망·드론·센서 표준연동</text>
+            </g>
+            <g transform="translate(390 140)">
+              <rect width="300" height="80" fill="#f5f5f5" stroke="#d6d6d6"/>
+              <rect width="8" height="80" fill="#76b900"/>
+              <text x="22" y="34" font-size="18" font-weight="700">다수 드론 적재</text>
+              <text x="22" y="60" font-size="14" fill="#555">소모형 전력의 지속 운용</text>
+            </g>
+            <g transform="translate(780 140)">
+              <rect width="300" height="80" fill="#f5f5f5" stroke="#d6d6d6"/>
+              <rect width="8" height="80" fill="#76b900"/>
+              <text x="22" y="34" font-size="18" font-weight="700">자동 발사</text>
+              <text x="22" y="60" font-size="14" fill="#555">차량 내부 보호 상태 발진</text>
+            </g>
+            <g transform="translate(390 280)">
+              <rect width="300" height="80" fill="#111" stroke="#111"/>
+              <rect width="8" height="80" fill="#76b900"/>
+              <text x="22" y="34" font-size="18" font-weight="700" fill="#fff">AI 기반 임무통제</text>
+              <text x="22" y="60" font-size="14" fill="#cfcfcf">다수 드론 상태·경로·임무 추천</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <section id="development">
+      <div class="section-head">
+        <h2>3. 차륜형장갑차 기반 개조개발 필요성</h2>
+        <p>기존 차륜형장갑차의 후방 병력공간을 군집드론 임무공간으로 전환하면 신규 차체 개발보다 위험과 기간을 줄일 수 있다.</p>
+      </div>
+
+      <figure>
+        <img src="../assets/rear-drone-container-concept.png" alt="후방 드론 컨테이너 개방 컨셉 이미지">
+        <figcaption>생성형 컨셉 이미지: 후방 드론 저장고, 충전장치, 데이터링크 장비, 발사튜브를 갖춘 임무공간. 실제 장갑차 구조를 복제하지 않은 비기밀 개념도.</figcaption>
+      </figure>
+
+      <div class="grid-2">
+        <div>
+          <h3>현재 문제점</h3>
+          <p>국내 지상군에는 장갑기동부대와 함께 움직이며 다수 드론을 저장·충전·발사·통제하는 전용 플랫폼이 부족하다. 일반 차량 또는 병력수송 차량에 임시 적재하는 방식은 전원, 통신, 안전관리, 작전지속성 측면에서 한계가 있다.</p>
+          <p>드론 운용팀이 비장갑 차량이나 야외 임시진지에서 임무를 수행하면 포격, 파편, FPV 드론 위협에 취약하다. 장갑차 기반 플랫폼은 운용팀을 보호하면서 전방 ISR과 표적획득 범위를 확대할 수 있다.</p>
+        </div>
+        <div class="card">
+          <h3>개조개발 논리</h3>
+          <p>현재 전장 변화 → 군집드론 확대 → 기존 장갑차 한계 → 전용 플랫폼 필요 → 국내 개발 필요</p>
+          <p>국내에는 장갑차, 드론, 데이터링크, AI 소프트웨어, 전술통신, 체계통합 역량이 존재한다. 기존 차륜형장갑차를 활용하면 국내 지상군 전술체계와 보안요구에 맞춘 통합이 가능하다.</p>
+        </div>
+      </div>
+
+      <h3>차량 내부 배치 개념</h3>
+      <div class="svg-box">
+        <svg viewBox="0 0 1120 430" role="img" aria-label="차륜형장갑차 기반 군집드론 모함차량 내부 배치 개념">
+          <rect width="1120" height="430" fill="#ffffff"/>
+          <text x="36" y="42" font-size="26" font-weight="700" fill="#111">차륜형장갑차 기반 개조개발 배치 개념</text>
+          <g transform="translate(85 110)">
+            <rect x="0" y="0" width="950" height="190" rx="24" fill="#efefef" stroke="#111" stroke-width="3"/>
+            <circle cx="115" cy="208" r="34" fill="#555"/>
+            <circle cx="300" cy="208" r="34" fill="#555"/>
+            <circle cx="650" cy="208" r="34" fill="#555"/>
+            <circle cx="835" cy="208" r="34" fill="#555"/>
+            <line x1="270" y1="0" x2="270" y2="190" stroke="#d6d6d6" stroke-width="3"/>
+            <line x1="585" y1="0" x2="585" y2="190" stroke="#d6d6d6" stroke-width="3"/>
+            <rect x="34" y="36" width="205" height="118" fill="#fff" stroke="#76b900" stroke-width="3"/>
+            <text x="136" y="72" text-anchor="middle" font-size="20" font-weight="700">차량 전방</text>
+            <text x="136" y="108" text-anchor="middle" font-size="16">조종수 / 차장</text>
+            <text x="136" y="134" text-anchor="middle" font-size="14" fill="#555">기동·발사승인·전술판단</text>
+            <rect x="315" y="36" width="220" height="118" fill="#fff" stroke="#76b900" stroke-width="3"/>
+            <text x="425" y="72" text-anchor="middle" font-size="20" font-weight="700">차량 중앙</text>
+            <text x="425" y="108" text-anchor="middle" font-size="16">드론 운용병 2~3명</text>
+            <text x="425" y="134" text-anchor="middle" font-size="14" fill="#555">임무계획·영상·상태감시</text>
+            <rect x="625" y="26" width="280" height="138" fill="#111" stroke="#76b900" stroke-width="3"/>
+            <text x="765" y="62" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">차량 후방</text>
+            <text x="765" y="96" text-anchor="middle" font-size="16" fill="#fff">드론 저장고 / 자동발사기</text>
+            <text x="765" y="122" text-anchor="middle" font-size="14" fill="#cfcfcf">충전·데이터링크·AI 서버</text>
+            <text x="765" y="148" text-anchor="middle" font-size="14" fill="#cfcfcf">후방 개방 또는 상부 발사</text>
+          </g>
+          <text x="85" y="380" font-size="15" fill="#555">주: 실제 장갑차 설계도면이 아닌 소요기획 단계의 기능 배치 개념도이다.</text>
+        </svg>
+      </div>
+
+      <h3>유무인복합작전 네트워크 개념</h3>
+      <div class="svg-box">
+        <svg viewBox="0 0 1120 560" role="img" aria-label="유무인복합작전 네트워크 구성도">
+          <rect width="1120" height="560" fill="#fff"/>
+          <text x="35" y="44" font-size="26" font-weight="700" fill="#111">전방 무인전력 허브로서의 네트워크 구성</text>
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L0,6 L8,3 z" fill="#76b900"/>
+            </marker>
+          </defs>
+          <g stroke="#76b900" stroke-width="3" fill="none" marker-end="url(#arrow)">
+            <path d="M560 280 C440 210, 330 185, 210 155"/>
+            <path d="M560 280 C460 300, 330 330, 210 392"/>
+            <path d="M560 280 C650 210, 750 170, 905 135"/>
+            <path d="M560 280 C690 300, 780 340, 920 390"/>
+            <path d="M560 280 C560 205, 560 150, 560 105"/>
+            <path d="M560 280 C560 365, 560 420, 560 472"/>
+          </g>
+          <g font-family="Arial, sans-serif">
+            <g transform="translate(440 226)">
+              <rect width="240" height="108" fill="#111" stroke="#111"/>
+              <text x="120" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">군집드론 모함차량</text>
+              <text x="120" y="70" text-anchor="middle" font-size="15" fill="#dcdcdc">저장·충전·발사·통제</text>
+              <text x="120" y="92" text-anchor="middle" font-size="14" fill="#76b900">AI 임무관리 서버</text>
+            </g>
+            <g transform="translate(95 105)">
+              <rect width="230" height="86" fill="#f5f5f5" stroke="#d6d6d6"/>
+              <text x="115" y="36" text-anchor="middle" font-size="18" font-weight="700">정찰드론</text>
+              <text x="115" y="62" text-anchor="middle" font-size="14" fill="#555">전방 ISR / 영상</text>
+            </g>
+            <g transform="translate(95 355)">
+              <rect width="230" height="86" fill="#f5f5f5" stroke="#d6d6d6"/>
+              <text x="115" y="36" text-anchor="middle" font-size="18" font-weight="700">UGV / 보병분대</text>
+              <text x="115" y="62" text-anchor="middle" font-size="14" fill="#555">근접 정찰·수송</text>
+            </g>
+            <g transform="translate(445 48)">
+              <rect width="230" height="86" fill="#f5f5f5" stroke="#d6d6d6"/>
+              <text x="115" y="36" text-anchor="middle" font-size="18" font-weight="700">지휘소 / BMS</text>
+              <text x="115" y="62" text-anchor="middle" font-size="14" fill="#555">임무명령·상황공유</text>
+            </g>
+            <g transform="translate(445 455)">
+              <rect width="230" height="86" fill="#f5f5f5" stroke="#d6d6d6"/>
+              <text x="115" y="36" text-anchor="middle" font-size="18" font-weight="700">포병·화력체계</text>
+              <text x="115" y="62" text-anchor="middle" font-size="14" fill="#555">좌표전송·타격연동</text>
+            </g>
+            <g transform="translate(795 95)">
+              <rect width="230" height="86" fill="#f5f5f5" stroke="#d6d6d6"/>
+              <text x="115" y="36" text-anchor="middle" font-size="18" font-weight="700">통신중계드론</text>
+              <text x="115" y="62" text-anchor="middle" font-size="14" fill="#555">전술망 확장</text>
+            </g>
+            <g transform="translate(805 355)">
+              <rect width="230" height="86" fill="#f5f5f5" stroke="#d6d6d6"/>
+              <text x="115" y="36" text-anchor="middle" font-size="18" font-weight="700">대드론·전자전</text>
+              <text x="115" y="62" text-anchor="middle" font-size="14" fill="#555">위협탐지·방호연동</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <section id="cost">
+      <div class="section-head">
+        <h2>4. 예상 사업비</h2>
+        <p>공개 유사사업과 방산 연구개발 비용 구조를 참고한 기획단계 추정치이다. 실제 사업비는 요구성능, 시제 수량, 드론 포함 여부에 따라 달라진다.</p>
+      </div>
+
+      <table>
+        <thead>
+          <tr><th>항목</th><th>소형</th><th>중형</th><th>대형</th><th>산정 근거</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>체계설계</td><td>20억</td><td>40억</td><td>70억</td><td>요구분석, 기본설계, 상세설계, 안전성 분석</td></tr>
+          <tr><td>임무컴퓨터</td><td>15억</td><td>35억</td><td>60억</td><td>차량 내부 통제콘솔, 서버, 영상처리장비</td></tr>
+          <tr><td>AI 소프트웨어</td><td>20억</td><td>60억</td><td>120억</td><td>임무계획, 다중드론 상태관리, 운용자 화면</td></tr>
+          <tr><td>데이터링크</td><td>20억</td><td>50억</td><td>100억</td><td>전술통신, 안테나, 보안모듈, 중계기능</td></tr>
+          <tr><td>드론발사기</td><td>25억</td><td>70억</td><td>140억</td><td>자동발사대, 캐니스터, 안전장치</td></tr>
+          <tr><td>차량개조</td><td>30억</td><td>80억</td><td>150억</td><td>내부공간 개조, 전원, 냉각, 방호, 배선</td></tr>
+          <tr><td>시제제작</td><td>60억</td><td>180억</td><td>350억</td><td>시제차량, 임무모듈, 통합장비, 예비품</td></tr>
+          <tr><td>시험평가</td><td>30억</td><td>80억</td><td>160억</td><td>성능시험, 환경시험, 전자파, 주행, 발사 안정성</td></tr>
+          <tr><td>군 운용시험</td><td>20억</td><td>60억</td><td>120억</td><td>부대 운용시험, 교육, 정비, 데이터 수집</td></tr>
+          <tr><th>합계</th><th>240억</th><th>655억</th><th>1,270억</th><th>기획단계 범위 추정</th></tr>
+        </tbody>
+      </table>
+
+      <div class="svg-box">
+        <svg viewBox="0 0 1120 420" role="img" aria-label="사업비 추정 시나리오 차트">
+          <rect width="1120" height="420" fill="#fff"/>
+          <text x="36" y="44" font-size="26" font-weight="700" fill="#111">총 사업비 시나리오 비교</text>
+          <g transform="translate(120 95)" font-family="Arial, sans-serif">
+            <line x1="0" y1="250" x2="850" y2="250" stroke="#d6d6d6"/>
+            <g>
+              <rect x="50" y="202" width="135" height="48" fill="#d6d6d6"/>
+              <text x="117" y="190" text-anchor="middle" font-size="20" font-weight="700">240억</text>
+              <text x="117" y="285" text-anchor="middle" font-size="18">소형</text>
+              <text x="117" y="310" text-anchor="middle" font-size="14" fill="#555">1~2대 실증</text>
+            </g>
+            <g>
+              <rect x="350" y="119" width="135" height="131" fill="#76b900"/>
+              <text x="417" y="105" text-anchor="middle" font-size="20" font-weight="700">655억</text>
+              <text x="417" y="285" text-anchor="middle" font-size="18">중형</text>
+              <text x="417" y="310" text-anchor="middle" font-size="14" fill="#555">3~4대 군 운용시험</text>
+            </g>
+            <g>
+              <rect x="650" y="0" width="135" height="250" fill="#111"/>
+              <text x="717" y="-14" text-anchor="middle" font-size="20" font-weight="700">1,270억</text>
+              <text x="717" y="285" text-anchor="middle" font-size="18">대형</text>
+              <text x="717" y="310" text-anchor="middle" font-size="14" fill="#555">5~6대 이상 체계개발</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="note">소요기획서 초안에는 중형 시나리오를 기준안으로 제시하는 것이 타당하다. 소형은 실증에는 적합하지만 군 운용성을 충분히 보여주기 어렵고, 대형은 초기 기획 단계에서 예산 부담이 크다.</div>
+    </section>
+
+    <section id="images">
+      <div class="section-head">
+        <h2>5. 과제카드 이미지 기획안</h2>
+        <p>중요한 글자와 숫자는 이미지에 넣지 않고 HTML 또는 PPT 텍스트로 별도 배치한다. 생성 이미지는 실제 기밀 장비로 오해되지 않는 일반 컨셉으로 제한한다.</p>
+      </div>
+
+      <div class="grid-3">
+        <figure>
+          <img src="../assets/wheeled-apc-drone-carrier-concept.png" alt="차륜형장갑차 기반 군집드론 모함차량 컨셉">
+          <figcaption>1. 차륜형장갑차 기반 군집드론 모함차량 컨셉. 표지·사업개요 이미지로 사용.</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/rear-drone-container-concept.png" alt="후방 드론 컨테이너 개방 컨셉">
+          <figcaption>2. 후방 드론 컨테이너 개방 장면. 임무공간 설명 이미지로 사용.</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/swarm-drone-launch-concept.png" alt="군집드론 동시 발사 컨셉">
+          <figcaption>3. 군집드론 동시 발사 장면. 작전효과 설명 이미지로 사용.</figcaption>
+        </figure>
+      </div>
+
+      <h3>이미지별 생성 프롬프트</h3>
+      <div class="grid-2">
+        <div class="card">
+          <h4>차륜형장갑차 기반 군집드론 모함차량</h4>
+          <div class="prompt">16:9 realistic defense proposal concept image, generic olive drab 8x8 wheeled armored vehicle, not an exact replica of any real platform, modular rear drone mission bay, clean modern military engineering visualization, matte olive drab and dark gray, no real unit markings, no national flags, no readable text, non-classified concept vehicle, several small reconnaissance drones staged near the vehicle, realistic lighting, professional government defense proposal style.</div>
+        </div>
+        <div class="card">
+          <h4>후방 드론 컨테이너 개방 장면</h4>
+          <div class="prompt">16:9 realistic military vehicle rear mission bay concept, generic Korean-style wheeled armored vehicle rear door open, modular drone storage racks, battery charging cabinets, secure data-link equipment, compact launch tubes, two soldiers inspecting equipment, no readable labels, no classified details, clean organized interior, olive drab vehicle, gray equipment modules.</div>
+        </div>
+        <div class="card">
+          <h4>군집드론 동시 발사 장면</h4>
+          <div class="prompt">16:9 realistic battlefield concept image, generic 8x8 armored drone carrier launching multiple small reconnaissance drones simultaneously, drones taking off in coordinated formation, vehicle positioned behind cover, daylight, generic olive drab military vehicle style with no exact real markings, no explosions, no readable text, emphasis on launch automation and networked ISR.</div>
+        </div>
+        <div class="card">
+          <h4>전장 네트워크 구성도</h4>
+          <div class="prompt">16:9 clean defense network concept diagram background, generic armored drone carrier connected to small drones, command post, artillery unit, infantry vehicle, unmanned ground vehicle, satellite or radio relay icons, thin green network lines on light gray and white background, no readable text, no official logos, modern Korean defense proposal infographic style.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="section-head">
+        <h2>6. 참고문헌 및 원문 링크</h2>
+        <p>가능한 공식기관과 업체 원문을 우선 배치했다. PDF는 기관 게시판에서 제목 기준으로 최신본을 재확인하는 방식이 필요하다.</p>
+      </div>
+
+      <div class="source-list">
+        <div class="source"><strong>U.S. Department of Defense - Replicator</strong><a href="https://www.defense.gov/" target="_blank" rel="noreferrer">https://www.defense.gov/</a></div>
+        <div class="source"><strong>DARPA OFFSET</strong><a href="https://www.darpa.mil/program/offensive-swarm-enabled-tactics" target="_blank" rel="noreferrer">https://www.darpa.mil/program/offensive-swarm-enabled-tactics</a></div>
+        <div class="source"><strong>U.S. Air Force - CCA</strong><a href="https://www.af.mil/" target="_blank" rel="noreferrer">https://www.af.mil/</a></div>
+        <div class="source"><strong>NATO DIANA</strong><a href="https://www.diana.nato.int/" target="_blank" rel="noreferrer">https://www.diana.nato.int/</a></div>
+        <div class="source"><strong>AeroVironment Switchblade</strong><a href="https://www.avinc.com/" target="_blank" rel="noreferrer">https://www.avinc.com/</a></div>
+        <div class="source"><strong>Anduril</strong><a href="https://www.anduril.com/" target="_blank" rel="noreferrer">https://www.anduril.com/</a></div>
+        <div class="source"><strong>IAI Harop</strong><a href="https://www.iai.co.il/" target="_blank" rel="noreferrer">https://www.iai.co.il/</a></div>
+        <div class="source"><strong>Elbit Systems</strong><a href="https://elbitsystems.com/" target="_blank" rel="noreferrer">https://elbitsystems.com/</a></div>
+        <div class="source"><strong>Epirus Leonidas</strong><a href="https://www.epirusinc.com/" target="_blank" rel="noreferrer">https://www.epirusinc.com/</a></div>
+        <div class="source"><strong>General Dynamics Land Systems</strong><a href="https://www.gdls.com/" target="_blank" rel="noreferrer">https://www.gdls.com/</a></div>
+        <div class="source"><strong>GDELS PIRANHA</strong><a href="https://www.gdels.com/" target="_blank" rel="noreferrer">https://www.gdels.com/</a></div>
+        <div class="source"><strong>ARTEC Boxer</strong><a href="https://www.artec-boxer.com/" target="_blank" rel="noreferrer">https://www.artec-boxer.com/</a></div>
+        <div class="source"><strong>KNDS RCH155</strong><a href="https://knds.com/en/products/systems/rch-155/" target="_blank" rel="noreferrer">https://knds.com/en/products/systems/rch-155/</a></div>
+        <div class="source"><strong>Patria 6x6</strong><a href="https://www.patriagroup.com/" target="_blank" rel="noreferrer">https://www.patriagroup.com/</a></div>
+        <div class="source"><strong>Rheinmetall Mission Master</strong><a href="https://www.rheinmetall.com/" target="_blank" rel="noreferrer">https://www.rheinmetall.com/</a></div>
+        <div class="source"><strong>방위사업청</strong><a href="https://www.dapa.go.kr/" target="_blank" rel="noreferrer">https://www.dapa.go.kr/</a></div>
+        <div class="source"><strong>국방기술품질원</strong><a href="https://www.dtaq.re.kr/" target="_blank" rel="noreferrer">https://www.dtaq.re.kr/</a></div>
+        <div class="source"><strong>국방기술진흥연구소</strong><a href="https://www.krit.re.kr/" target="_blank" rel="noreferrer">https://www.krit.re.kr/</a></div>
+        <div class="source"><strong>KIDA</strong><a href="https://www.kida.re.kr/" target="_blank" rel="noreferrer">https://www.kida.re.kr/</a></div>
+        <div class="source"><strong>국회예산정책처</strong><a href="https://www.nabo.go.kr/" target="_blank" rel="noreferrer">https://www.nabo.go.kr/</a></div>
+      </div>
+
+      <h3>PDF 확보 우선순위</h3>
+      <table class="tight">
+        <thead><tr><th>우선순위</th><th>기관</th><th>확보 권장 자료</th><th>활용 목적</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>국방기술품질원</td><td>국방과학기술조사서, 글로벌 국방기술 동향</td><td>국내 기술수준, 기술동향 근거</td></tr>
+          <tr><td>2</td><td>국방기술진흥연구소</td><td>국방기술기획서, 미래도전국방기술 자료</td><td>과제카드 문체와 기술기획 논리 반영</td></tr>
+          <tr><td>3</td><td>방위사업청</td><td>차륜형장갑차 전력화, 드론봇·무인체계 보도자료</td><td>국내 사업 필요성 및 전력화 근거</td></tr>
+          <tr><td>4</td><td>KIDA</td><td>미래전, 유무인복합체계, 네트워크 중심전 연구</td><td>정책·전략적 필요성 근거</td></tr>
+          <tr><td>5</td><td>국회예산정책처</td><td>국방예산 분석, 방위력개선사업 분석</td><td>사업비 추정과 예산 논리 보강</td></tr>
+          <tr><td>6</td><td>NATO / RAND / CSIS</td><td>무인체계, 우크라이나 전쟁 교훈, 방산혁신 보고서</td><td>해외 시장·전장 변화 분석 근거</td></tr>
+        </tbody>
+      </table>
+
+      <div class="print-note">
+        <strong>활용 안내:</strong> 이 HTML은 브라우저에서 바로 열어 검토할 수 있으며, 인쇄 기능을 이용하면 PDF로 저장할 수 있다. HWP에 붙여넣을 때는 본문과 표를 선택해 복사하고, 이미지는 `assets/` 폴더의 PNG 파일을 별도 삽입하는 방식이 가장 안정적이다.
+      </div>
+    </section>
+  </main>
+</body>
+</html>
+
+

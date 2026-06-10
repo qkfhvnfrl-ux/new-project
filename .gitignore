@@ -1,0 +1,16 @@
+# Local/generated review artifacts not needed for this GitHub Pages handoff
+output/*.pptx
+output/review-*.png
+output/review-*.md
+output/improved-review/
+output/slide-previews/
+output/source-review/
+
+# Earlier unrelated workshop assets
+assets/hero-ai-workshop.png
+assets/text-to-cad-concept.png
+assets/vibe-coding-concept.png
+
+# Local OS/editor files
+Thumbs.db
+.DS_Store

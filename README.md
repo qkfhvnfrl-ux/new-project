@@ -9,6 +9,7 @@
 ## 바로 열 파일
 
 - [HTML 시각자료 보기](index.html)
+- [개조개발 필요성·해외시장 분석 분리본](market-entry.html)
 - [작업용 HTML 원본](output/krit_swarm_drone_wheeled_apc_visual_report.html)
 - [HWP 붙여넣기용 서술형 초안](output/krit_swarm_drone_wheeled_apc_research_draft.md)
 
